@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="blue">#2A4657</color>
+    <color name="whiteRock">#E8E5D1</color>
+    <color name="chico">#89635E</color>
+    <color name="whiskey">#D69E73</color>
+    <color name="brown">#4D2D18</color>
+</resources>
