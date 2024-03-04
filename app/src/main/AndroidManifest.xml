@@ -13,6 +13,16 @@
         android:theme="@style/Theme.LoginSignUpSQlite"
         tools:targetApi="31">
         <activity
+            android:name=".UpdateBook"
+            android:parentActivityName=".UpdateBook"
+            android:theme="@style/Theme.LoginSignUpSQlite.WithActionBar"
+            android:exported="false" />
+        <activity
+            android:name=".AddItems"
+            android:label="Add Book"
+            android:parentActivityName=".UpdateBook"
+            android:theme="@style/Theme.LoginSignUpSQlite.WithActionBar" />
+        <activity
             android:name=".HomePage"
             android:exported="false" />
         <activity

@@ -54,7 +54,7 @@ public class RegisterPage extends AppCompatActivity {
                     if (pass.equals(cPass)){
                         Boolean checkUser = DB.checkUserEmail(String.valueOf(email));
                         if (checkUser == false){
-                            Boolean insert = DB.insertData(user, pass);
+                            Boolean insert = DB.insertUserData(user, pass);
                             if (insert == true){
                                 Toast.makeText(RegisterPage.this, "Registration Successfully",Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -9,4 +9,10 @@
     </style>
 
     <style name="Theme.LoginSignUpSQlite" parent="Base.Theme.LoginSignUpSQlite" />
+
+    <style name="Theme.LoginSignUpSQlite.WithActionBar" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryVariant">@color/blue</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
 </resources>
