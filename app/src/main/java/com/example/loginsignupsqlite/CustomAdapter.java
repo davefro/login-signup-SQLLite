@@ -22,6 +22,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
 
     private Activity activity;
     private ArrayList book_id, book_title, book_author, book_isbn;
+    Animation translate_anim;
     CustomAdapter(Activity activity, ArrayList book_id, ArrayList book_title, ArrayList book_author,
                   ArrayList book_isbn){
         this.activity = activity;
@@ -39,7 +40,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
         return new MyViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
     @Override
     public void onBindViewHolder(@NonNull  MyViewHolder holder,final int position) {
         holder.book_id_txt.setText(String.valueOf(book_id.get(position)));
@@ -80,8 +81,8 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
             book_isbn_txt = itemView.findViewById(R.id.book_isbn_txt);
             mainLayout = itemView.findViewById(R.id.mainLayout);
             //Animate Recyclerview
-            //Animation translate_anim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
-            //mainLayout.setAnimation(translate_anim);
+            Animation translate_anim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
+            mainLayout.setAnimation(translate_anim);
         }
 
     }

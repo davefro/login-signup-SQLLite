@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/splash"
     tools:context=".ProfileFragment"
     android:orientation="vertical"
     android:gravity="center"
@@ -11,40 +12,69 @@
     <!-- TODO: Update blank fragment layout -->
     <ImageView
         android:layout_width="150dp"
+        android:layout_marginBottom="70dp"
         android:layout_height="150dp"
-        android:background="@drawable/circle"
-        android:src="@drawable/person"
-        android:scaleType="centerCrop"/>
+        android:background="@drawable/man"
+        android:scaleType="centerCrop" />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:hint="Username"
-        android:inputType="text"
-        android:layout_margin="50dp"
+        android:hint="Update Your Email"
+        android:inputType="textEmailAddress"
+        android:layout_margin="15dp"
+        android:drawableStart="@drawable/email"
+        android:drawablePadding="10dp"
         tools:ignore="Autofill,HardcodedText"
         android:background="@drawable/edit_text_round_corner"
         android:elevation="10dp"
-        android:id="@+id/profile_username" />
+        android:id="@+id/profile_email" />
+
+    <EditText
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:hint="Update Your Password"
+        android:inputType="textPassword"
+        android:drawableStart="@drawable/lock"
+        android:drawablePadding="10dp"
+        android:layout_marginBottom="30dp"
+        tools:ignore="Autofill,HardcodedText"
+        android:background="@drawable/edit_text_round_corner"
+        android:elevation="10dp"
+        android:id="@+id/profile_password" />
 
     <Button
-        android:id="@+id/sign_in"
-        android:layout_width="match_parent"
+        android:id="@+id/updateProfile"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20sp"
         android:text="Update Profil"
         android:background="@drawable/round_btn"
-        android:layout_margin="50dp"/>
+        android:layout_margin="10dp"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/deleteProfile"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:text="Delete Profil"
+        android:background="@drawable/round_btn"
+        android:layout_margin="20dp"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Logout"
         android:id="@+id/logout_btn"
-        android:textColor="@color/white"
+        android:textColor="@color/brown"
         android:textStyle="bold"
-        android:textSize="18dp"/>
+        android:textSize="18sp"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

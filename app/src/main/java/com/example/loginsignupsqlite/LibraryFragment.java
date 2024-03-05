@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
+
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,13 +35,13 @@ public class LibraryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
         recyclerView = view.findViewById(R.id.recyclerView);
         addButton = view.findViewById(R.id.addButton);
 
-        // Initialize DBHelper and ArrayLists
+        // initialize DBHelper and ArrayLists
         DB = new DBHelper(getActivity()); // Use getActivity() for the context
         book_id = new ArrayList<>();
         book_author = new ArrayList<>();
@@ -51,7 +50,7 @@ public class LibraryFragment extends Fragment {
 
         storeDataInArrays();
 
-        // Setup RecyclerView with CustomAdapter
+        // setup RecyclerView with CustomAdapter
         customAdapter = new CustomAdapter(getActivity(), book_id, book_title, book_author, book_isbn);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -64,7 +63,7 @@ public class LibraryFragment extends Fragment {
             }
         });
 
-        // Return the view after all setup is complete
+        // return the view after all setup is complete
         return view;
     }
 
@@ -72,21 +71,21 @@ public class LibraryFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        // Clear the current data
+        // clear the current data
         book_id.clear();
         book_title.clear();
         book_author.clear();
         book_isbn.clear();
 
-        // Re-fetch data
+        // re-fetch data
         storeDataInArrays();
 
-        // Notify adapter about data change
+        // notify adapter about data change
         customAdapter.notifyDataSetChanged();
     }
 
     private void storeDataInArrays() {
-        // Implement this method to fetch data from the database and fill the ArrayLists
+        // implement this method to fetch data from the database and fill the ArrayLists
         Cursor cursor = DB.readAllBooks();
         if(cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "No data.", Toast.LENGTH_SHORT).show();
