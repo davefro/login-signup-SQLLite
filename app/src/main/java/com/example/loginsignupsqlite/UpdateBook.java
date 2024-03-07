@@ -6,15 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 public class UpdateBook extends AppCompatActivity {
 
     EditText author_input, title_input, isbn_input;
     Button updateButton, deleteButton;
+    RatingBar ratingBar;
 
     String id, author, title, isbn;
 
@@ -28,6 +31,7 @@ public class UpdateBook extends AppCompatActivity {
         isbn_input = findViewById(R.id.isbn_input2);
         updateButton = findViewById(R.id.updateButton);
         deleteButton = findViewById(R.id.deleteButton);
+        ratingBar = findViewById(R.id.bookRatingBar2);
 
         getAndSetIntentData();
 
@@ -43,9 +47,10 @@ public class UpdateBook extends AppCompatActivity {
                 title = title_input.getText().toString();
                 author = author_input.getText().toString();
                 isbn = isbn_input.getText().toString();
+                float rating = ratingBar.getRating();
 
                 DBHelper DB = new DBHelper(UpdateBook.this);
-                DB.updateData(id, title, author, isbn);
+                DB.updateData(id, title, author, isbn, rating);
 
             }
         });
@@ -60,22 +65,27 @@ public class UpdateBook extends AppCompatActivity {
 
     void getAndSetIntentData(){
         if(getIntent().hasExtra("id") && getIntent().hasExtra("author") &&
-                getIntent().hasExtra("title") && getIntent().hasExtra("isbn")){
+                getIntent().hasExtra("title") && getIntent().hasExtra("isbn") &&
+                getIntent().hasExtra("rating")){
             // Get data from Intent
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
             author = getIntent().getStringExtra("author");
             isbn = getIntent().getStringExtra("isbn");
+            float rating = getIntent().getFloatExtra("rating", 0);
 
             // Set Intent data
             title_input.setText(title);
             author_input.setText(author);
             isbn_input.setText(isbn);
+            ratingBar.setRating(rating);
 
         }else{
             Toast.makeText(this, "No Data.", Toast.LENGTH_SHORT).show();
         }
     }
+
+
     void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete " + title + " ?");

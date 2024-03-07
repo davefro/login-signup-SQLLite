@@ -25,7 +25,7 @@ public class LibraryFragment extends Fragment {
     RecyclerView recyclerView;
     FloatingActionButton addButton;
     DBHelper DB;
-    ArrayList<String> book_id, book_author, book_title, book_isbn;
+    ArrayList<String> book_id, book_author, book_title, book_isbn, book_ratings;
     CustomAdapter customAdapter;
 
     public LibraryFragment() {
@@ -47,11 +47,12 @@ public class LibraryFragment extends Fragment {
         book_author = new ArrayList<>();
         book_title = new ArrayList<>();
         book_isbn = new ArrayList<>();
+        book_ratings = new ArrayList<>();
 
         storeDataInArrays();
 
         // setup RecyclerView with CustomAdapter
-        customAdapter = new CustomAdapter(getActivity(), book_id, book_title, book_author, book_isbn);
+        customAdapter = new CustomAdapter(getActivity(), book_id, book_title, book_author, book_isbn, book_ratings);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -76,6 +77,7 @@ public class LibraryFragment extends Fragment {
         book_title.clear();
         book_author.clear();
         book_isbn.clear();
+        book_ratings.clear();
 
         // re-fetch data
         storeDataInArrays();
@@ -95,6 +97,7 @@ public class LibraryFragment extends Fragment {
                 book_title.add(cursor.getString(1));
                 book_author.add(cursor.getString(2));
                 book_isbn.add(cursor.getString(3));
+                book_ratings.add(cursor.getString(4));
             }
         }
     }

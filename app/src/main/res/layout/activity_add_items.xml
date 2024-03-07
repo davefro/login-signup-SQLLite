@@ -55,13 +55,20 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:hint="ISBN-13 Number"
+        android:hint="Add Comments"
         android:inputType="text"
         android:layout_margin="20dp"
         tools:ignore="Autofill,HardcodedText"
         android:background="@drawable/edit_text_round_corner"
         android:elevation="10dp"
         android:id="@+id/isbn_input" />
+
+    <RatingBar
+        android:id="@+id/bookRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"/>
+
 
     <Button
         android:id="@+id/addButton"

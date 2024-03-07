@@ -11,7 +11,7 @@ public class DBHelper  extends SQLiteOpenHelper {
 
     private Context context;
     private static final String DATABASE_NAME = "ApplicationDB.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
 
     // User Table
     private static final String TABLE_USER_DETAILS = "Userdetails";
@@ -24,6 +24,7 @@ public class DBHelper  extends SQLiteOpenHelper {
     private static final String COLUMN_BOOK_TITLE = "book_title";
     private static final String COLUMN_BOOK_AUTHOR = "book_author";
     private static final String COLUMN_BOOK_ISBN = "book_isbn";
+    private static final String COLUMN_BOOK_RATING = "book_rating";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -41,7 +42,8 @@ public class DBHelper  extends SQLiteOpenHelper {
                 " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_BOOK_TITLE + " TEXT, " +
                 COLUMN_BOOK_AUTHOR + " TEXT, " +
-                COLUMN_BOOK_ISBN + " TEXT)";
+                COLUMN_BOOK_ISBN + " TEXT, " +
+                COLUMN_BOOK_RATING + " REAL)"; // REAL is used for floating point numbers
         db.execSQL(createTableUserDetails);
         db.execSQL(createTableBookLibrary);
     }
@@ -80,13 +82,15 @@ public class DBHelper  extends SQLiteOpenHelper {
     }
 
     // Book-related operations
-    public void addBook(String title, String author, String isbn){
+    public void addBook(String title, String author, String isbn, float rating){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_BOOK_TITLE, title);
         cv.put(COLUMN_BOOK_AUTHOR, author);
         cv.put(COLUMN_BOOK_ISBN, isbn);
+        cv.put(COLUMN_BOOK_RATING, rating);
+
         long result = db.insert(TABLE_BOOK_LIBRARY, null, cv);
         if(result == -1){
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
@@ -100,12 +104,13 @@ public class DBHelper  extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM " + TABLE_BOOK_LIBRARY, null);
     }
 
-    void updateData(String row_id, String title, String author, String isbn){
+    void updateData(String row_id, String title, String author, String isbn, float rating){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_BOOK_TITLE, title);
         cv.put(COLUMN_BOOK_AUTHOR, author);
         cv.put(COLUMN_BOOK_ISBN, isbn);
+        cv.put(COLUMN_BOOK_RATING, rating);
 
         long result = db.update(TABLE_BOOK_LIBRARY, cv, "_id=?", new String[]{row_id});
         if(result == -1){
