@@ -88,7 +88,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
 
             mainLayout = itemView.findViewById(R.id.mainLayout);
             //Animate Recyclerview
-            Animation translate_anim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
+            translate_anim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(translate_anim);
         }
 

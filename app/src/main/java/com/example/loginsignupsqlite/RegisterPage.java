@@ -49,7 +49,7 @@ public class RegisterPage extends AppCompatActivity {
                 String cPass = cPassword.getText().toString();
 
                 if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(cPass)){
-                    Toast.makeText(RegisterPage.this, "All Fields Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterPage.this, "All Fields are Required", Toast.LENGTH_SHORT).show();
                 } else {
                     if (pass.equals(cPass)){
                         Boolean checkUser = DB.checkUserEmail(String.valueOf(email));

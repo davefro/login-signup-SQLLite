@@ -130,4 +130,16 @@ public class DBHelper  extends SQLiteOpenHelper {
             Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public boolean resetUserPassword(String email, String newPassword){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_USER_PASSWORD, newPassword);
+
+        // Updating password where email matches
+        int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
+
+        return result > 0; // return true if the password was updated successfully
+    }
+
 }

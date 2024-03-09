@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextInputEditText email, password;
     Button signIn;
-    TextView signUp;
+    TextView signUp, forgotPassword;
     DBHelper DB;
 
     @Override
@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        forgotPassword = findViewById(R.id.forgotPassword);
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         signIn = findViewById(R.id.sign_in);
@@ -34,6 +35,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, RegisterPage.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        forgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ResetPassword.class);
                 startActivity(intent);
                 finish();
             }
