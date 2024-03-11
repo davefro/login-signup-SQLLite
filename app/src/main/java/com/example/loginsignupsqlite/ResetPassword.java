@@ -33,18 +33,22 @@ public class ResetPassword extends AppCompatActivity {
                 String pass2 = password2.getText().toString();
                 String pass3 = password3.getText().toString();
 
-                if(user.isEmpty() || pass2.isEmpty() || pass3.isEmpty()){
+                // Check valid email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                // Password validation
+                String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
+
+                if (user.isEmpty() || pass2.isEmpty() || pass3.isEmpty()) {
                     Toast.makeText(ResetPassword.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                // Check if passwords match
-                if(!pass2.equals(pass3)){
+                } else if (!user.matches(emailPattern)) {
+                    Toast.makeText(ResetPassword.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                } else if (!pass2.matches(passwordPattern)) {
+                    Toast.makeText(ResetPassword.this, "Password needs 8 chars, including a number, upper & lower case letters, and a special char", Toast.LENGTH_LONG).show();
+                } else if (!pass2.equals(pass3)) {
                     Toast.makeText(ResetPassword.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
-                    return;
+                } else {
+                    resetUserPassword(user, pass2);
                 }
-
-                resetUserPassword(user, pass2);
             }
         });
     }
@@ -57,7 +61,6 @@ public class ResetPassword extends AppCompatActivity {
             startActivity(intent);
             finish();
         }else{
-            // This means the user email was not found in the database
             Toast.makeText(ResetPassword.this, "Failed to reset password. User not found.", Toast.LENGTH_SHORT).show();
         }
     }

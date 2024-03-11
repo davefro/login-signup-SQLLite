@@ -43,7 +43,7 @@ public class DBHelper  extends SQLiteOpenHelper {
                 COLUMN_BOOK_TITLE + " TEXT, " +
                 COLUMN_BOOK_AUTHOR + " TEXT, " +
                 COLUMN_BOOK_ISBN + " TEXT, " +
-                COLUMN_BOOK_RATING + " REAL)"; // REAL is used for floating point numbers
+                COLUMN_BOOK_RATING + " REAL)";
         db.execSQL(createTableUserDetails);
         db.execSQL(createTableBookLibrary);
     }
@@ -55,7 +55,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // User-related operations
+    // insert user data
     public Boolean insertUserData(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -65,6 +65,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    // check if user exist
     public Boolean checkUserEmail(String email){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + TABLE_USER_DETAILS + " where email=?", new String[] {email});
@@ -81,7 +82,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Book-related operations
+    // Add books method
     public void addBook(String title, String author, String isbn, float rating){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -99,11 +100,13 @@ public class DBHelper  extends SQLiteOpenHelper {
         }
     }
 
+    // read all books from DB
     public Cursor readAllBooks(){
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM " + TABLE_BOOK_LIBRARY, null);
     }
 
+    // update books data
     void updateData(String row_id, String title, String author, String isbn, float rating){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -121,6 +124,7 @@ public class DBHelper  extends SQLiteOpenHelper {
 
     }
 
+    // delete books
     void deleteOneRow(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_BOOK_LIBRARY, "_id=?", new String[]{row_id});
@@ -131,15 +135,47 @@ public class DBHelper  extends SQLiteOpenHelper {
         }
     }
 
+    // reset password
     public boolean resetUserPassword(String email, String newPassword){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_USER_PASSWORD, newPassword);
 
-        // Updating password where email matches
+        // update password where email matches
         int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
 
-        return result > 0; // return true if the password was updated successfully
+        return result > 0;
+    }
+
+    // display user email
+    public String getCurrentUserEmail() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT email FROM Userdetails";
+        Cursor cursor = db.rawQuery(query, null);
+        if(cursor.moveToFirst()) {
+            String email = cursor.getString(0);
+            cursor.close();
+            return email;
+        } else {
+            return "No Email Found";
+        }
+    }
+
+    // update user details
+    public boolean updateUserDetails(String oldEmail, String newEmail, String newPassword) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_USER_EMAIL, newEmail);
+        contentValues.put(COLUMN_USER_PASSWORD, newPassword);
+        int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{oldEmail});
+        return result > 0;
+    }
+
+    // delete user account
+    public boolean deleteUserByEmail(String email) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        int result = db.delete(TABLE_USER_DETAILS, COLUMN_USER_EMAIL + "=?", new String[]{email});
+        return result > 0;
     }
 
 }

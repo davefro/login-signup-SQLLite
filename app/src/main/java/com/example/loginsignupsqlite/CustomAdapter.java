@@ -1,20 +1,18 @@
 package com.example.loginsignupsqlite;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -43,14 +41,15 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
 
 
     @Override
-    public void onBindViewHolder(@NonNull  MyViewHolder holder,final int position) {
-        holder.book_id_txt.setText(String.valueOf(book_id.get(position)));
+    public void onBindViewHolder(@NonNull  MyViewHolder holder, int position) {
         holder.book_title_txt.setText(String.valueOf(book_title.get(position)));
         holder.book_author_txt.setText(String.valueOf(book_author.get(position)));
         holder.book_isbn_txt.setText(String.valueOf(book_isbn.get(position)));
         float rating = Float.parseFloat(book_ratings.get(position).toString());
-
         holder.bookRatingBar.setRating(rating);
+        holder.bookImage.setImageResource(R.drawable.book_img);
+
+
         //Recyclerview onClickListener
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,13 +72,15 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView book_id_txt, book_title_txt, book_author_txt, book_isbn_txt;
+        TextView book_title_txt, book_author_txt, book_isbn_txt;
+
+        ImageView bookImage;
         LinearLayout mainLayout;
         RatingBar bookRatingBar;
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            book_id_txt = itemView.findViewById(R.id.book_id_txt);
+            bookImage = itemView.findViewById(R.id.book_image);
             book_title_txt = itemView.findViewById(R.id.book_title_txt);
             book_author_txt = itemView.findViewById(R.id.book_author_txt);
             book_isbn_txt = itemView.findViewById(R.id.book_isbn_txt);

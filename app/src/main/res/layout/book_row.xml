@@ -17,15 +17,14 @@
             android:layout_height="wrap_content"
             android:padding="12dp">
 
-            <TextView
-                android:id="@+id/book_id_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:text="1"
-                android:textColor="#000"
-                android:textSize="40sp"
-                android:textStyle="bold"
+
+            <ImageView
+                android:id="@+id/book_image"
+                android:layout_width="80dp"
+                android:layout_height="110dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/book_img"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,8 +38,8 @@
                 android:textColor="#000"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/book_id_txt"
-                app:layout_constraintTop_toTopOf="@+id/book_id_txt" />
+                app:layout_constraintStart_toEndOf="@+id/book_image"
+                app:layout_constraintTop_toTopOf="@+id/book_image" />
 
             <TextView
                 android:id="@+id/book_author_txt"
@@ -55,6 +54,7 @@
                 android:id="@+id/book_isbn_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:text="Great Book"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
                 android:id="@+id/bookRatingBar"
                 android:layout_width="231dp"
                 android:layout_height="48dp"
-
+                android:layout_marginTop="35dp"
                 android:numStars="5"
                 android:scaleX="0.5"
                 android:scaleY="0.5"

@@ -42,7 +42,7 @@ public class LibraryFragment extends Fragment {
         addButton = view.findViewById(R.id.addButton);
 
         // initialize DBHelper and ArrayLists
-        DB = new DBHelper(getActivity()); // Use getActivity() for the context
+        DB = new DBHelper(getActivity());
         book_id = new ArrayList<>();
         book_author = new ArrayList<>();
         book_title = new ArrayList<>();
@@ -86,8 +86,8 @@ public class LibraryFragment extends Fragment {
         customAdapter.notifyDataSetChanged();
     }
 
+    //  fetch data from the database
     private void storeDataInArrays() {
-        // implement this method to fetch data from the database and fill the ArrayLists
         Cursor cursor = DB.readAllBooks();
         if(cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "No data.", Toast.LENGTH_SHORT).show();

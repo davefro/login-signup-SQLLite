@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,30 +46,37 @@ public class RegisterPage extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = email.getText().toString();
-                String pass = password.getText().toString();
-                String cPass = cPassword.getText().toString();
+                String user = email.getText().toString().trim();
+                String pass = password.getText().toString().trim();
+                String cPass = cPassword.getText().toString().trim();
+
+                // check valid email
+                String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+                // password validation
+                String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
 
                 if (TextUtils.isEmpty(user) || TextUtils.isEmpty(pass) || TextUtils.isEmpty(cPass)){
-                    Toast.makeText(RegisterPage.this, "All Fields are Required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterPage.this, "All fields are required", Toast.LENGTH_SHORT).show();
+                } else if (!user.matches(emailPattern)) {
+                    Toast.makeText(RegisterPage.this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                } else if (!pass.matches(passwordPattern)) {
+                    Toast.makeText(RegisterPage.this, "Password needs 8 chars, including a number, upper & lower case letters, and a special char", Toast.LENGTH_LONG).show();
+                } else if (!pass.equals(cPass)) {
+                    Toast.makeText(RegisterPage.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (pass.equals(cPass)){
-                        Boolean checkUser = DB.checkUserEmail(String.valueOf(email));
-                        if (checkUser == false){
-                            Boolean insert = DB.insertUserData(user, pass);
-                            if (insert == true){
-                                Toast.makeText(RegisterPage.this, "Registration Successfully",Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                Toast.makeText(RegisterPage.this, "Please try again", Toast.LENGTH_SHORT).show();
-                            }
+                    Boolean checkUser = DB.checkUserEmail(user);
+                    if (!checkUser) {
+                        Boolean insert = DB.insertUserData(user, pass);
+                        if (insert) {
+                            Toast.makeText(RegisterPage.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
-                            Toast.makeText(RegisterPage.this, "User Already exists, Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterPage.this, "Registration failed, please try again", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(RegisterPage.this, "Password does not match", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterPage.this, "User already exists, please try again", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
