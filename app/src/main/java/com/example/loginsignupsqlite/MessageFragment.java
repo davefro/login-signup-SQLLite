@@ -33,7 +33,7 @@ public class MessageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_message, container, false);
 
-        name = view.findViewById(R.id.name);
+        name = view.findViewById(R.id.book_name);
         message = view.findViewById(R.id.message);
         phone = view.findViewById(R.id.phone);
         email = view.findViewById(R.id.email);
@@ -49,33 +49,32 @@ public class MessageFragment extends Fragment {
                 String phoneText = phone.getText().toString().trim();
                 String emailText = email.getText().toString().trim();
 
-                // Check if any field is empty
+                // check if any field is empty
                 if (nameText.isEmpty() || messageText.isEmpty() || phoneText.isEmpty() || emailText.isEmpty()) {
                     Toast.makeText(getContext(), "All fields are required.", Toast.LENGTH_SHORT).show();
                     return; // Stop further execution
                 }
 
-                // Check if the phone field contains only digits
+                // check if the phone field contains only digits
                 if (!phoneText.matches("[0-9]+")) {
                     Toast.makeText(getContext(), "Phone must contain only numbers.", Toast.LENGTH_SHORT).show();
                     return; // Stop further execution
                 }
 
-                // Check if the email address contains "@"
+                // check if the email address contains "@"
                 if (!emailText.contains("@")) {
                     Toast.makeText(getContext(), "Email address must include '@'.", Toast.LENGTH_SHORT).show();
                     return; // Stop further execution
                 }
 
-                // Check if the user agreed to the privacy policy
+                // check if the user agreed to the privacy policy
                 if (!agreePrivacyPolicy.isChecked()) {
                     Toast.makeText(getContext(), "You must agree to the Privacy and Policy to proceed", Toast.LENGTH_LONG).show();
                     return; // Stop further execution
                 }
 
-                // If all validations pass, proceed with form submission
+                // if all validations pass, proceed with form submission
                 Toast.makeText(getContext(), "Message has been sent", Toast.LENGTH_SHORT).show();
-                // Add your form submission logic here
             }
         });
 

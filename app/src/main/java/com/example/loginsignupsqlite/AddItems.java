@@ -21,8 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
 
-import com.google.android.material.badge.BadgeDrawable;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 public class AddItems extends AppCompatActivity {
 
@@ -48,6 +47,7 @@ public class AddItems extends AppCompatActivity {
             }
         });
 
+        // check version, permission and request permission
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if (ContextCompat.checkSelfPermission(AddItems.this,
                     android.Manifest.permission.POST_NOTIFICATIONS) !=
@@ -72,6 +72,7 @@ public class AddItems extends AppCompatActivity {
         });
     }
 
+    // create a notification method
     public void makeNotification(){
         String chanelID = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder =
@@ -108,6 +109,7 @@ public class AddItems extends AppCompatActivity {
         notificationManager.notify(0,builder.build());
     }
 
+    // method to track the number of notifications incrementing the count each time it is invoked
     private void incrementNotificationCount() {
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
@@ -117,5 +119,4 @@ public class AddItems extends AppCompatActivity {
         myEdit.putInt("notificationCount", currentCount);
         myEdit.apply();
     }
-
 }

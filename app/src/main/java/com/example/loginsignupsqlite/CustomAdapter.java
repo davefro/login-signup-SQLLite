@@ -18,17 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
-    private Activity activity;
-    private ArrayList book_id, book_title, book_author, book_isbn, book_ratings;
-    Animation translate_anim;
-    CustomAdapter(Activity activity, ArrayList book_id, ArrayList book_title, ArrayList book_author,
-                  ArrayList book_isbn, ArrayList book_ratings){
+    private final Activity activity;
+    private final ArrayList<Book> books;  // list of book objects
+    Animation translate_anim;  // animation for item
+
+    // constructor to initialize activity context and book list
+    CustomAdapter(Activity activity, ArrayList<Book> books){
         this.activity = activity;
-        this.book_id = book_id;
-        this.book_title = book_title;
-        this.book_author = book_author;
-        this.book_isbn = book_isbn;
-        this.book_ratings = book_ratings;
+        this.books = books;
     }
 
     @NonNull
@@ -40,36 +37,36 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
     }
 
 
+    // bind data to the ViewHolder
     @Override
-    public void onBindViewHolder(@NonNull  MyViewHolder holder, int position) {
-        holder.book_title_txt.setText(String.valueOf(book_title.get(position)));
-        holder.book_author_txt.setText(String.valueOf(book_author.get(position)));
-        holder.book_isbn_txt.setText(String.valueOf(book_isbn.get(position)));
-        float rating = Float.parseFloat(book_ratings.get(position).toString());
-        holder.bookRatingBar.setRating(rating);
+    public void onBindViewHolder(@NonNull  MyViewHolder holder,final int position) {
+        Book currentBook = books.get(position);
+        holder.book_title_txt.setText(currentBook.getTitle());
+        holder.book_author_txt.setText(currentBook.getAuthor());
+        holder.book_isbn_txt.setText(currentBook.getIsbn());
+        holder.bookRatingBar.setRating(currentBook.getRating());
         holder.bookImage.setImageResource(R.drawable.book_img);
-
-
-        //Recyclerview onClickListener
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, UpdateBook.class);
-                intent.putExtra("id", String.valueOf(book_id.get(position)));
-                intent.putExtra("title", String.valueOf(book_title.get(position)));
-                intent.putExtra("author", String.valueOf(book_author.get(position)));
-                intent.putExtra("isbn", String.valueOf(book_isbn.get(position)));
-                intent.putExtra("rating", String.valueOf(book_ratings.get(position)));
+                Intent intent = new Intent(activity, UpdateBook.class); // intent to navigate to the UpdateBook activity
+                intent.putExtra("id", String.valueOf(currentBook.getId()));
+                intent.putExtra("title", currentBook.getTitle());
+                intent.putExtra("author", currentBook.getAuthor());
+                intent.putExtra("isbn", currentBook.getIsbn());
+                intent.putExtra("rating", String.valueOf(currentBook.getRating()));
                 activity.startActivityForResult(intent, 1);
             }
         });
     }
 
+    // return the total numbers of item
     @Override
-    public int getItemCount() {
-        return book_id.size();
+    public int getItemCount(){
+        return books.size();
     }
 
+    // ViewHolder class to hold references to the view
     class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView book_title_txt, book_author_txt, book_isbn_txt;

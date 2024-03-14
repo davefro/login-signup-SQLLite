@@ -25,7 +25,7 @@ public class LibraryFragment extends Fragment {
     RecyclerView recyclerView;
     FloatingActionButton addButton;
     DBHelper DB;
-    ArrayList<String> book_id, book_author, book_title, book_isbn, book_ratings;
+    ArrayList<Book> books;
     CustomAdapter customAdapter;
 
     public LibraryFragment() {
@@ -43,16 +43,12 @@ public class LibraryFragment extends Fragment {
 
         // initialize DBHelper and ArrayLists
         DB = new DBHelper(getActivity());
-        book_id = new ArrayList<>();
-        book_author = new ArrayList<>();
-        book_title = new ArrayList<>();
-        book_isbn = new ArrayList<>();
-        book_ratings = new ArrayList<>();
+        books = new ArrayList<>();
 
         storeDataInArrays();
 
         // setup RecyclerView with CustomAdapter
-        customAdapter = new CustomAdapter(getActivity(), book_id, book_title, book_author, book_isbn, book_ratings);
+        customAdapter = new CustomAdapter(getActivity(), books);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -73,11 +69,7 @@ public class LibraryFragment extends Fragment {
     public void onResume(){
         super.onResume();
         // clear the current data
-        book_id.clear();
-        book_title.clear();
-        book_author.clear();
-        book_isbn.clear();
-        book_ratings.clear();
+        books.clear();
 
         // re-fetch data
         storeDataInArrays();
@@ -86,19 +78,23 @@ public class LibraryFragment extends Fragment {
         customAdapter.notifyDataSetChanged();
     }
 
-    //  fetch data from the database
+
+    // fetch data from db and store it in the books arraylist
     private void storeDataInArrays() {
         Cursor cursor = DB.readAllBooks();
-        if(cursor.getCount() == 0) {
+        if (cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "No data.", Toast.LENGTH_SHORT).show();
         } else {
             while (cursor.moveToNext()) {
-                book_id.add(cursor.getString(0));
-                book_title.add(cursor.getString(1));
-                book_author.add(cursor.getString(2));
-                book_isbn.add(cursor.getString(3));
-                book_ratings.add(cursor.getString(4));
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_ID));
+                String title = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_TITLE));
+                String author = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_AUTHOR));
+                String isbn = cursor.getString(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_ISBN));
+                float rating = cursor.getFloat(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_RATING));
+                // create and add objects to the list
+                books.add(new Book(id, title, author, isbn, rating));
             }
+            cursor.close();
         }
     }
 }

@@ -34,6 +34,7 @@ public class RegisterPage extends AppCompatActivity {
         signIn = findViewById(R.id.sign_in);
         DB = new DBHelper(this);
 
+        // navigate to the sign in activity
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -43,6 +44,7 @@ public class RegisterPage extends AppCompatActivity {
             }
         });
 
+        // signup method
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

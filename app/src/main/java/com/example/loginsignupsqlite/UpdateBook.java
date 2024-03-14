@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +18,7 @@ public class UpdateBook extends AppCompatActivity {
     Button updateButton, deleteButton;
     RatingBar ratingBar;
 
+    // variables to hold book details
     String id, author, title, isbn;
 
     @Override
@@ -33,14 +33,16 @@ public class UpdateBook extends AppCompatActivity {
         deleteButton = findViewById(R.id.deleteButton);
         ratingBar = findViewById(R.id.bookRatingBar2);
 
+        // retrieve and set data from Intent
         getAndSetIntentData();
 
-        // Set actionbar title
+        // set actionbar title
         ActionBar ab = getSupportActionBar();
         if (ab!= null){
             ab.setTitle(title);
         }
 
+        // update book method
         updateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,11 +51,14 @@ public class UpdateBook extends AppCompatActivity {
                 isbn = isbn_input.getText().toString();
                 float rating = ratingBar.getRating();
 
+                //update book details in the db
                 DBHelper DB = new DBHelper(UpdateBook.this);
                 DB.updateData(id, title, author, isbn, rating);
 
             }
         });
+
+        // delete book method
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +68,7 @@ public class UpdateBook extends AppCompatActivity {
 
     }
 
+    // method to retrieve and set book data from intent
     void getAndSetIntentData(){
         if(getIntent().hasExtra("id") && getIntent().hasExtra("author") &&
                 getIntent().hasExtra("title") && getIntent().hasExtra("isbn") &&
@@ -86,6 +92,7 @@ public class UpdateBook extends AppCompatActivity {
     }
 
 
+    // method to show a confirmation dialog before deleting a book
     void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete " + title + " ?");

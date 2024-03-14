@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
 
         DB = new DBHelper(getContext());
 
-        // Update profile listener
+        // update profile
         updateProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,7 +50,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // Delete profile listener
+        // delete profile
         deleteProfileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +58,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-        // Logout listener
+        // logout
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,11 +69,12 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    // update profile method
     private void updateProfile() {
         String newUserEmail = profileEmail.getText().toString().trim();
         String newUserPassword = profilePassword.getText().toString().trim();
 
-        // Patterns for validation
+        // patterns for validation
         String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
         String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
 
@@ -84,7 +85,6 @@ public class ProfileFragment extends Fragment {
         } else if (!newUserPassword.matches(passwordPattern)) {
             Toast.makeText(getContext(), "Password needs 8 chars, including a number, upper & lower case letters, and a special char", Toast.LENGTH_LONG).show();
         } else {
-            // Assuming you have a way to get the current user's email, possibly saved in SharedPreferences or static variable
             String currentUserEmail = DB.getCurrentUserEmail();
             if (currentUserEmail.equals(newUserEmail) || !DB.checkUserEmail(newUserEmail)) {
                 if (DB.updateUserDetails(currentUserEmail, newUserEmail, newUserPassword)) {
@@ -98,7 +98,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
+    // delete profile method with alert dialog
     private void deleteProfile() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Confirm Deletion");
@@ -106,11 +106,10 @@ public class ProfileFragment extends Fragment {
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Actual deletion logic
                 String currentUserEmail = DB.getCurrentUserEmail();
                 if (DB.deleteUserByEmail(currentUserEmail)) {
                     Toast.makeText(getContext(), "Profile Deleted Successfully", Toast.LENGTH_SHORT).show();
-                    logoutUser(); // Automatically log the user out after deletion
+                    logoutUser();
                 } else {
                     Toast.makeText(getContext(), "Profile Deletion Failed", Toast.LENGTH_SHORT).show();
                 }
@@ -128,6 +127,7 @@ public class ProfileFragment extends Fragment {
     }
 
 
+    // logout user
     private void logoutUser() {
          SharedPreferences sharedPreferences = getActivity().getSharedPreferences("UserSession", Context.MODE_PRIVATE);
          SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -137,5 +137,4 @@ public class ProfileFragment extends Fragment {
          startActivity(intent);
          getActivity().finish();
     }
-
 }

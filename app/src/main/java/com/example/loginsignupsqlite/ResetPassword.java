@@ -33,11 +33,12 @@ public class ResetPassword extends AppCompatActivity {
                 String pass2 = password2.getText().toString();
                 String pass3 = password3.getText().toString();
 
-                // Check valid email
+                // check valid email
                 String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-                // Password validation
+                // password validation
                 String passwordPattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
 
+                // validations for empty fields
                 if (user.isEmpty() || pass2.isEmpty() || pass3.isEmpty()) {
                     Toast.makeText(ResetPassword.this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
                 } else if (!user.matches(emailPattern)) {
@@ -53,6 +54,7 @@ public class ResetPassword extends AppCompatActivity {
         });
     }
 
+    // method to reset user password
     private void resetUserPassword(String user, String newPass){
         boolean result = DB.resetUserPassword(user, newPass);
         if(result){

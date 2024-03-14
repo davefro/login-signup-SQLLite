@@ -1,5 +1,6 @@
 package com.example.loginsignupsqlite;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -7,9 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class DBHelper  extends SQLiteOpenHelper {
 
-    private Context context;
+    private final Context context;
     private static final String DATABASE_NAME = "ApplicationDB.db";
     private static final int DATABASE_VERSION = 1;
 
@@ -20,11 +23,14 @@ public class DBHelper  extends SQLiteOpenHelper {
 
     // Book Table
     private static final String TABLE_BOOK_LIBRARY = "my_library";
-    private static final String COLUMN_BOOK_ID = "_id";
-    private static final String COLUMN_BOOK_TITLE = "book_title";
-    private static final String COLUMN_BOOK_AUTHOR = "book_author";
-    private static final String COLUMN_BOOK_ISBN = "book_isbn";
-    private static final String COLUMN_BOOK_RATING = "book_rating";
+
+    // Using public to get access in LibraryFragment while
+    // private cannot be accessed from outside DBHelper
+    public static final String COLUMN_BOOK_ID = "_id";
+    public static final String COLUMN_BOOK_TITLE = "book_title";
+    public static final String COLUMN_BOOK_AUTHOR = "book_author";
+    public static final String COLUMN_BOOK_ISBN = "book_isbn";
+    public static final String COLUMN_BOOK_RATING = "book_rating";
 
     public DBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -33,11 +39,11 @@ public class DBHelper  extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Create User Details Table
+        // create user details table
         String createTableUserDetails = "CREATE TABLE " + TABLE_USER_DETAILS +
                 " (" + COLUMN_USER_EMAIL + " TEXT PRIMARY KEY, " +
                 COLUMN_USER_PASSWORD + " TEXT)";
-        // Create Book Library Table
+        // create book library table
         String createTableBookLibrary = "CREATE TABLE " + TABLE_BOOK_LIBRARY +
                 " (" + COLUMN_BOOK_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_BOOK_TITLE + " TEXT, " +
@@ -74,6 +80,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         return exists;
     }
 
+    // check user password
     public Boolean checkUserPassword(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + TABLE_USER_DETAILS + " where email=? and password=?", new String[] {email, password});
@@ -143,7 +150,6 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         // update password where email matches
         int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
-
         return result > 0;
     }
 
@@ -178,4 +184,26 @@ public class DBHelper  extends SQLiteOpenHelper {
         return result > 0;
     }
 
+   // search book if exist in DB
+    public ArrayList<Book> searchBooks(String searchTerm) {
+        ArrayList<Book> bookList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_BOOK_LIBRARY + " WHERE " + COLUMN_BOOK_TITLE + " LIKE ?", new String[]{"%" + searchTerm + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                @SuppressLint("Range") Book book = new Book(
+                        cursor.getInt(cursor.getColumnIndex(COLUMN_BOOK_ID)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_BOOK_TITLE)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_BOOK_AUTHOR)),
+                        cursor.getString(cursor.getColumnIndex(COLUMN_BOOK_ISBN)),
+                        cursor.getFloat(cursor.getColumnIndex(COLUMN_BOOK_RATING))
+                );
+                bookList.add(book);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return bookList;
+    }
 }

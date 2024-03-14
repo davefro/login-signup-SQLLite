@@ -2,20 +2,9 @@ package com.example.loginsignupsqlite;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,9 +17,11 @@ import com.google.android.material.navigation.NavigationBarView;
 
 public class HomePage extends AppCompatActivity {
 
+    // variables for ui components and fragments
     BottomNavigationView bottomNavigationView;
     ImageButton searchButton;
 
+    // fragments for different section
     ProfileFragment profileFragment;
     LibraryFragment libraryFragment;
     NotificationsFragment notificationsFragment;
@@ -44,6 +35,7 @@ public class HomePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
 
+        // initialize fragments
         profileFragment = new ProfileFragment();
         libraryFragment = new LibraryFragment();
         notificationsFragment = new NotificationsFragment();
@@ -53,12 +45,13 @@ public class HomePage extends AppCompatActivity {
         searchButton = findViewById(R.id.main_search_btn);
         textView = findViewById(R.id.Welcome);
 
+        // get user email from db and display it
         DBHelper DB = new DBHelper(this);
         String userEmail = DB.getCurrentUserEmail();
-
         TextView userEmailTextView = findViewById(R.id.userEmailTextView);
         userEmailTextView.setText(userEmail);
 
+        // navigate to the search book activity
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,6 +59,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        // item navigation between fragments
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -89,6 +83,7 @@ public class HomePage extends AppCompatActivity {
             }
         });
 
+        // intent from notification click
         Intent intent = getIntent();
         if (intent != null && "notifications".equals(intent.getStringExtra("navigateTo"))){
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new NotificationsFragment()).commit();
@@ -96,12 +91,14 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+    // update notification badge count
     @Override
     protected void onResume() {
         super.onResume();
         updateBadgeCount();
     }
 
+    // update the badge count for notifications based on stored sharedPreferences
     private void updateBadgeCount(){
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         int currentCount = sharedPreferences.getInt("notificationCount", 0);
@@ -116,6 +113,7 @@ public class HomePage extends AppCompatActivity {
         }
     }
 
+    // reset the notification count to 0 and remove the badge
     private void resetNotificationCount(){
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
