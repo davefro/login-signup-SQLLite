@@ -59,7 +59,7 @@ public class Book {
         this.rating = rating;
     }
 
-    //  override the toString() method for debugging purposes
+
     @NonNull
     @Override
     public String toString() {

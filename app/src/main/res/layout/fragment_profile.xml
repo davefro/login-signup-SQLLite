@@ -6,16 +6,17 @@
     android:background="@drawable/splash"
     tools:context=".ProfileFragment"
     android:orientation="vertical"
-    android:gravity="center"
-   >
+    android:gravity="center">
 
     <!-- TODO: Update blank fragment layout -->
     <ImageView
+        android:id="@+id/profilePict"
         android:layout_width="150dp"
         android:layout_marginBottom="70dp"
         android:layout_height="150dp"
         android:background="@drawable/man"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:layout_width="350dp"
@@ -51,7 +52,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="Update Profil"
+        android:text="Update Profile"
         android:background="@drawable/round_btn"
         android:layout_margin="10dp"
         tools:ignore="HardcodedText" />
@@ -62,7 +63,7 @@
         android:layout_height="wrap_content"
         android:textStyle="bold"
         android:textSize="20sp"
-        android:text="Delete Profil"
+        android:text="Delete Profile"
         android:background="@drawable/round_btn"
         android:layout_margin="20dp"
         tools:ignore="HardcodedText" />

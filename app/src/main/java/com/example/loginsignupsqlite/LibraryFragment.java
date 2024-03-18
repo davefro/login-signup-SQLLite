@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
-
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,10 +35,11 @@ public class LibraryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("LibraryFragment", "onCreateView: Starting to create view.");
         // inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.search_book_recycler_view);
         addButton = view.findViewById(R.id.addButton);
 
         // initialize DBHelper and ArrayLists
@@ -55,18 +56,21 @@ public class LibraryFragment extends Fragment {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("LibraryFragment", "addButton: Clicked.");
                 Intent intent = new Intent(getActivity(), AddItems.class);
                 startActivity(intent);
             }
         });
 
         // return the view after all setup is complete
+        Log.d("LibraryFragment", "onCreateView: View created.");
         return view;
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onResume(){
+        Log.d("LibraryFragment", "onResume: Fragment resumed.");
         super.onResume();
         // clear the current data
         books.clear();
@@ -76,6 +80,7 @@ public class LibraryFragment extends Fragment {
 
         // notify adapter about data change
         customAdapter.notifyDataSetChanged();
+        Log.d("LibraryFragment", "onResume: Data refreshed.");
     }
 
 
@@ -84,6 +89,7 @@ public class LibraryFragment extends Fragment {
         Cursor cursor = DB.readAllBooks();
         if (cursor.getCount() == 0) {
             Toast.makeText(getActivity(), "No data.", Toast.LENGTH_SHORT).show();
+            Log.d("LibraryFragment", "storeDataInArrays: No data found.");
         } else {
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow(DBHelper.COLUMN_BOOK_ID));
@@ -94,6 +100,7 @@ public class LibraryFragment extends Fragment {
                 // create and add objects to the list
                 books.add(new Book(id, title, author, isbn, rating));
             }
+            Log.d("LibraryFragment", "storeDataInArrays: Data fetched successfully.");
             cursor.close();
         }
     }

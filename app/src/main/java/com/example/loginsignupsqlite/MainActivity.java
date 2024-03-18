@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d("MainActivity", "onCreate: Activity created.");
 
         // initialize ui components and db
         forgotPassword = findViewById(R.id.forgotPassword);
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MainActivity", "Navigating to RegisterPage.");
                 Intent intent = new Intent(MainActivity.this, RegisterPage.class);
                 startActivity(intent);
             }
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         forgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("MainActivity", "Navigating to ResetPassword.");
                 Intent intent = new Intent(MainActivity.this, ResetPassword.class);
                 startActivity(intent);
             }
@@ -62,39 +66,40 @@ public class MainActivity extends AppCompatActivity {
                 String user = email.getText().toString().trim();
                 String pass = password.getText().toString().trim();
 
-                // Reset errors at the beginning
+                // reset errors at the beginning
                 emailInputLayout.setError(null);
                 passwordInputLayout.setError(null);
 
-                // Check for empty or invalid inputs and show specific errors
+                Log.d("MainActivity", "Attempting to log in for user: " + user);
+
+                // check for empty or invalid inputs and show specific errors
                 if (TextUtils.isEmpty(user)) {
                     emailInputLayout.setError("Email cannot be empty");
-                    Toast.makeText(MainActivity.this, "Please correct the errors", Toast.LENGTH_SHORT).show();
-                    return; // Exit the method early
+                    Log.d("MainActivity", "Login failed: Email empty.");
+                    return;
                 } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
                     emailInputLayout.setError("Invalid email address");
-                    Toast.makeText(MainActivity.this, "Please correct the errors", Toast.LENGTH_SHORT).show();
-                    return; // Exit the method early
+                    Log.d("MainActivity", "Login failed: Invalid email.");
+                    return;
                 }
 
                 if (TextUtils.isEmpty(pass)) {
                     passwordInputLayout.setError("Password cannot be empty");
-                    Toast.makeText(MainActivity.this, "Please correct the errors", Toast.LENGTH_SHORT).show();
-                    return; // Exit the method early
+                    return;
                 }
 
                 // If inputs are valid, proceed to check credentials
                 Boolean checkUserPass = DB.checkUserPassword(user, pass);
                 if (checkUserPass) {
+                    Log.d("MainActivity", "Login successful for user: " + user);
                     Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), HomePage.class);
                     startActivity(intent);
                 } else {
+                    Log.d("MainActivity", "Login failed: User does not exist or password incorrect.");
                     Toast.makeText(MainActivity.this, "Login Failed, User does not exist", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 }
-

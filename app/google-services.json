@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "945856463028",
+    "project_id": "loginsignupsqlite",
+    "storage_bucket": "loginsignupsqlite.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945856463028:android:78045dccf75e37dd5f97e1",
+        "android_client_info": {
+          "package_name": "com.example.loginsignupsqlite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ0uEEhlGIRgm8DLnSqRRwC2S5Vgfcv0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

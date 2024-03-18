@@ -6,9 +6,7 @@
     tools:context=".UpdateBook"
     android:background="@drawable/ic_wave"
     android:orientation="vertical"
-    android:gravity="center"
-
-    >
+    android:gravity="center">
 
     <TextView
         android:layout_width="300dp"
@@ -26,7 +24,8 @@
         android:layout_height="102dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:src="@drawable/book" />
+        android:src="@drawable/book"
+        tools:ignore="ContentDescription" />
 
     <EditText
         android:id="@+id/title_input2"
@@ -58,6 +57,7 @@
         android:padding="10dp"
         android:hint="Add Comments"
         android:inputType="text"
+        android:maxLength="22"
         android:layout_margin="20dp"
         tools:ignore="Autofill,HardcodedText"
         android:background="@drawable/edit_text_round_corner"
@@ -94,7 +94,5 @@
         android:focusable="true"
         android:layout_margin="10dp"
         tools:ignore="HardcodedText" />
-
-
 
 </LinearLayout>

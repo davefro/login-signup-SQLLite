@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -34,6 +35,7 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
+        Log.d("HomePage", "onCreate: Activity created.");
 
         // initialize fragments
         profileFragment = new ProfileFragment();
@@ -63,6 +65,7 @@ public class HomePage extends AppCompatActivity {
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("HomePage", "onNavigationItemSelected: " + item.getTitle());
                     if(item.getItemId() == R.id.menu_profile){
                         getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, profileFragment).commit();
                     }
@@ -86,9 +89,11 @@ public class HomePage extends AppCompatActivity {
         // intent from notification click
         Intent intent = getIntent();
         if (intent != null && "notifications".equals(intent.getStringExtra("navigateTo"))){
+            Log.d("HomePage", "onCreate: Navigating to NotificationsFragment due to intent.");
             getSupportFragmentManager().beginTransaction().replace(R.id.main_frame_layout, new NotificationsFragment()).commit();
             bottomNavigationView.setSelectedItemId(R.id.menu_notifications);
         }
+        Log.d("HomePage", "onCreate: Fragments initialized and listeners set.");
     }
 
     // update notification badge count
@@ -102,6 +107,7 @@ public class HomePage extends AppCompatActivity {
     private void updateBadgeCount(){
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         int currentCount = sharedPreferences.getInt("notificationCount", 0);
+        Log.d("HomePage", "updateBadgeCount: Current count is " + currentCount);
 
         if(currentCount > 0){
             BadgeDrawable badgeDrawable = bottomNavigationView.getOrCreateBadge(R.id.menu_notifications);
@@ -115,6 +121,7 @@ public class HomePage extends AppCompatActivity {
 
     // reset the notification count to 0 and remove the badge
     private void resetNotificationCount(){
+        Log.d("HomePage", "resetNotificationCount: Resetting notification count to 0.");
         SharedPreferences sharedPreferences = getSharedPreferences("MySharedPref", MODE_PRIVATE);
         SharedPreferences.Editor myEdit = sharedPreferences.edit();
         myEdit.putInt("notificationCount", 0);

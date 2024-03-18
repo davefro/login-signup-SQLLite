@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ public class AddItems extends AppCompatActivity {
     RatingBar ratingBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("AddItems", "onCreate started");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_items);
 
@@ -60,6 +62,7 @@ public class AddItems extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("AddItems", "Add Button Clicked");
                 DBHelper DB = new DBHelper(AddItems.this);
                 float rating = ratingBar.getRating();
                 DB.addBook(title_input.getText().toString().trim(),
@@ -70,10 +73,12 @@ public class AddItems extends AppCompatActivity {
                 makeNotification();
             }
         });
+        Log.d("AddItems", "onCreate completed");
     }
 
     // create a notification method
     public void makeNotification(){
+        Log.d("AddItems", "Creating notification");
         String chanelID = "CHANNEL_ID_NOTIFICATION";
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(getApplicationContext(),chanelID );
@@ -107,6 +112,7 @@ public class AddItems extends AppCompatActivity {
         }
         incrementNotificationCount();
         notificationManager.notify(0,builder.build());
+        Log.d("AddItems", "Notification created");
     }
 
     // method to track the number of notifications incrementing the count each time it is invoked

@@ -6,26 +6,25 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class DBHelper  extends SQLiteOpenHelper {
 
-    private final Context context;
-    private static final String DATABASE_NAME = "ApplicationDB.db";
-    private static final int DATABASE_VERSION = 1;
+    public final Context context;
+    public static final String DATABASE_NAME = "ApplicationDB.db";
+    public static final int DATABASE_VERSION = 1;
 
     // User Table
-    private static final String TABLE_USER_DETAILS = "Userdetails";
-    private static final String COLUMN_USER_EMAIL = "email";
-    private static final String COLUMN_USER_PASSWORD = "password";
+    public static final String TABLE_USER_DETAILS = "Userdetails";
+    public static final String COLUMN_USER_ID = "id";
+    public static final String COLUMN_USER_EMAIL = "email";
+    public static final String COLUMN_USER_PASSWORD = "password";
 
     // Book Table
-    private static final String TABLE_BOOK_LIBRARY = "my_library";
-
-    // Using public to get access in LibraryFragment while
-    // private cannot be accessed from outside DBHelper
+    public static final String TABLE_BOOK_LIBRARY = "my_library";
     public static final String COLUMN_BOOK_ID = "_id";
     public static final String COLUMN_BOOK_TITLE = "book_title";
     public static final String COLUMN_BOOK_AUTHOR = "book_author";
@@ -41,7 +40,8 @@ public class DBHelper  extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // create user details table
         String createTableUserDetails = "CREATE TABLE " + TABLE_USER_DETAILS +
-                " (" + COLUMN_USER_EMAIL + " TEXT PRIMARY KEY, " +
+                " (" + COLUMN_USER_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_USER_EMAIL + " TEXT UNIQUE, " +
                 COLUMN_USER_PASSWORD + " TEXT)";
         // create book library table
         String createTableBookLibrary = "CREATE TABLE " + TABLE_BOOK_LIBRARY +
@@ -68,24 +68,31 @@ public class DBHelper  extends SQLiteOpenHelper {
         contentValues.put(COLUMN_USER_EMAIL, email);
         contentValues.put(COLUMN_USER_PASSWORD, password);
         long result = db.insert(TABLE_USER_DETAILS, null, contentValues);
+        Log.d("DBHelper", "insertUserData - Result: " + result);
+        db.close();
         return result != -1;
     }
 
+
     // check if user exist
     public Boolean checkUserEmail(String email){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + TABLE_USER_DETAILS + " where email=?", new String[] {email});
         boolean exists = cursor.getCount() > 0;
+        Log.d("DBHelper", "checkUserEmail - Exists: " + exists + " for Email: " + email);
         cursor.close();
+        db.close();
         return exists;
     }
 
     // check user password
     public Boolean checkUserPassword(String email, String password){
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("Select * from " + TABLE_USER_DETAILS + " where email=? and password=?", new String[] {email, password});
         boolean exists = cursor.getCount() > 0;
+        Log.d("DBHelper", "checkUserPassword - Match: " + exists + " for Email: " + email);
         cursor.close();
+        db.close();
         return exists;
     }
 
@@ -101,10 +108,13 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         long result = db.insert(TABLE_BOOK_LIBRARY, null, cv);
         if(result == -1){
+            Log.e("DBHelper", "Failed to add book titled: " + title);
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
         }else {
+            Log.d("DBHelper", "Book added successfully with title: " + title);
             Toast.makeText(context, "Added Successfully!", Toast.LENGTH_SHORT).show();
         }
+        db.close();
     }
 
     // read all books from DB
@@ -124,34 +134,59 @@ public class DBHelper  extends SQLiteOpenHelper {
 
         long result = db.update(TABLE_BOOK_LIBRARY, cv, "_id=?", new String[]{row_id});
         if(result == -1){
+            Log.e("DBHelper", "Failed to update book with ID: " + row_id);
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
         }else {
+            Log.d("DBHelper", "Book updated successfully with ID: " + row_id);
             Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
         }
-
+        db.close();
     }
+
 
     // delete books
     void deleteOneRow(String row_id){
         SQLiteDatabase db = this.getWritableDatabase();
         long result = db.delete(TABLE_BOOK_LIBRARY, "_id=?", new String[]{row_id});
         if(result == -1){
+            Log.e("DBHelper", "Failed to delete book with ID: " + row_id);
             Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
         }else{
+            Log.d("DBHelper", "Book deleted successfully with ID: " + row_id);
             Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
         }
+        db.close();
     }
 
     // reset password
-    public boolean resetUserPassword(String email, String newPassword){
+//    public boolean resetUserPassword(String email, String newPassword){
+//        SQLiteDatabase db = this.getWritableDatabase();
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(COLUMN_USER_PASSWORD, newPassword);
+//
+//        // update password where email matches
+//        int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
+//        db.close();
+//        return result > 0;
+//    }
+
+    public boolean resetUserPassword(String email, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_USER_PASSWORD, newPassword);
-
-        // update password where email matches
         int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
-        return result > 0;
+        if (result > 0) {
+            Log.d("DBHelper", "Password reset successfully for Email: " + email);
+            db.close();
+            return true;
+        } else {
+            Log.e("DBHelper", "Failed to reset password for Email: " + email);
+            db.close();
+            return false;
+        }
     }
+
+
 
     // display user email
     public String getCurrentUserEmail() {
@@ -167,6 +202,7 @@ public class DBHelper  extends SQLiteOpenHelper {
         }
     }
 
+
     // update user details
     public boolean updateUserDetails(String oldEmail, String newEmail, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -174,17 +210,23 @@ public class DBHelper  extends SQLiteOpenHelper {
         contentValues.put(COLUMN_USER_EMAIL, newEmail);
         contentValues.put(COLUMN_USER_PASSWORD, newPassword);
         int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{oldEmail});
+        db.close();
         return result > 0;
     }
+
+
 
     // delete user account
     public boolean deleteUserByEmail(String email) {
         SQLiteDatabase db = this.getWritableDatabase();
         int result = db.delete(TABLE_USER_DETAILS, COLUMN_USER_EMAIL + "=?", new String[]{email});
+        db.close();
         return result > 0;
     }
 
-   // search book if exist in DB
+
+
+    // search book if exist in DB
     public ArrayList<Book> searchBooks(String searchTerm) {
         ArrayList<Book> bookList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

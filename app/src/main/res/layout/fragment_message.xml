@@ -8,25 +8,53 @@
     android:orientation="vertical"
     tools:context=".MessageFragment">
 
-    <com.google.android.material.textfield.TextInputLayout
+    <RelativeLayout
+        android:id="@+id/search_book_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:endIconMode="clear_text">
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/book_name"
+        <EditText
+            android:id="@+id/search_bookName_input"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toStartOf="@id/search_book_btn"
+            android:background="@drawable/edit_text_round_corner"
             android:drawableStart="@drawable/book_icon"
             android:drawablePadding="10dp"
-            android:layout_height="wrap_content"
-            android:hint="Book Title"
-            android:inputType="text"
-            tools:ignore="HardcodedText" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:elevation="4dp"
+            android:hint="Book Name"
+            android:padding="10dp"
+            tools:ignore="Autofill,HardcodedText,TextFields" />
+
+        <ImageButton
+            android:id="@+id/search_book_btn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="4dp"
+            android:src="@drawable/icon_search"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_book_recycler_view"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -52,47 +80,6 @@
             tools:ignore="HardcodedText" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:endIconMode="clear_text"
-        app:prefixText="+44">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phone"
-            android:layout_width="match_parent"
-            android:drawableStart="@drawable/phone_icon"
-            android:drawablePadding="10dp"
-            android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:inputType="text"
-            tools:ignore="HardcodedText" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        app:endIconMode="clear_text">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/email"
-            android:layout_width="match_parent"
-            android:drawableStart="@drawable/email"
-            android:drawablePadding="10dp"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="text"
-            tools:ignore="HardcodedText" />
-    </com.google.android.material.textfield.TextInputLayout>
-
     <RadioButton
         android:id="@+id/agreePrivacyPolicy"
         android:layout_width="wrap_content"
@@ -103,9 +90,7 @@
         android:textSize="16sp"
         tools:ignore="HardcodedText" />
 
-
-
-        <androidx.appcompat.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/cookieSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +109,7 @@
         android:textSize="20sp"
         android:text="Submit"
         android:background="@drawable/round_btn"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="50dp"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>

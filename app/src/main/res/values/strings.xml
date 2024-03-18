@@ -6,4 +6,6 @@
     <string name="notify_des">New book has been added to the library</string>
     <string name="book_title">Book Title and Author</string>
     <string name="logo">Logo</string>
+    <string name="message">Message sent successfully</string>
+    <string name="back">Back</string>
 </resources>

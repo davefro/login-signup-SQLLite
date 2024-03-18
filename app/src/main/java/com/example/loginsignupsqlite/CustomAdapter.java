@@ -2,6 +2,7 @@ package com.example.loginsignupsqlite;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("CustomAdapter", "onCreateViewHolder called for viewType: " + viewType);
         LayoutInflater inflater = LayoutInflater.from(activity);
         View view = inflater.inflate(R.layout.book_row, parent, false);
         return new MyViewHolder(view);
@@ -41,6 +43,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
     @Override
     public void onBindViewHolder(@NonNull  MyViewHolder holder,final int position) {
         Book currentBook = books.get(position);
+        Log.d("CustomAdapter", "Binding data for position: " + position + " | Title: " + currentBook.getTitle());
         holder.book_title_txt.setText(currentBook.getTitle());
         holder.book_author_txt.setText(currentBook.getAuthor());
         holder.book_isbn_txt.setText(currentBook.getIsbn());
@@ -63,6 +66,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
     // return the total numbers of item
     @Override
     public int getItemCount(){
+        Log.d("CustomAdapter", "Total items count: " + books.size());
         return books.size();
     }
 
@@ -77,6 +81,7 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
 
         MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            Log.d("CustomAdapter", "ViewHolder created");
             bookImage = itemView.findViewById(R.id.book_image);
             book_title_txt = itemView.findViewById(R.id.book_title_txt);
             book_author_txt = itemView.findViewById(R.id.book_author_txt);
@@ -89,6 +94,5 @@ public class CustomAdapter  extends RecyclerView.Adapter<CustomAdapter.MyViewHol
             translate_anim = AnimationUtils.loadAnimation(activity.getApplicationContext(), R.anim.translate_anim);
             mainLayout.setAnimation(translate_anim);
         }
-
     }
 }

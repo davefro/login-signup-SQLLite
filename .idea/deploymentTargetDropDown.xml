@@ -2,7 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="BookClubAppEspressoTest">
+        <State />
+      </entry>
+      <entry key="BookClubAppUIAutomatorTest">
+        <State />
+      </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="completeBookClubAppTest()">
+        <State />
+      </entry>
+      <entry key="testUserRegistrationAndLogin() (1)">
         <State />
       </entry>
     </value>
