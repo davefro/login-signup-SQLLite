@@ -159,17 +159,6 @@ public class DBHelper  extends SQLiteOpenHelper {
     }
 
     // reset password
-//    public boolean resetUserPassword(String email, String newPassword){
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(COLUMN_USER_PASSWORD, newPassword);
-//
-//        // update password where email matches
-//        int result = db.update(TABLE_USER_DETAILS, contentValues, COLUMN_USER_EMAIL + "=?", new String[]{email});
-//        db.close();
-//        return result > 0;
-//    }
-
     public boolean resetUserPassword(String email, String newPassword) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();

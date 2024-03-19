@@ -8,10 +8,10 @@
       <entry key="BookClubAppUIAutomatorTest">
         <State />
       </entry>
-      <entry key="app">
+      <entry key="ExampleInstrumentedTest">
         <State />
       </entry>
-      <entry key="completeBookClubAppTest()">
+      <entry key="app">
         <State />
       </entry>
       <entry key="testUserRegistrationAndLogin() (1)">

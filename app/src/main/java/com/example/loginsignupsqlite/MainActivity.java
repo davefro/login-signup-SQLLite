@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //  sign in button
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,11 +83,11 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("MainActivity", "Login failed: Invalid email.");
                     return;
                 }
-
                 if (TextUtils.isEmpty(pass)) {
                     passwordInputLayout.setError("Password cannot be empty");
                     return;
                 }
+
 
                 // If inputs are valid, proceed to check credentials
                 Boolean checkUserPass = DB.checkUserPassword(user, pass);

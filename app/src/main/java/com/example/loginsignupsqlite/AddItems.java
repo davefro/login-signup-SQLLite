@@ -59,17 +59,39 @@ public class AddItems extends AppCompatActivity {
                         new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
             }
         }
+
+        // add book method
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("AddItems", "Add Button Clicked");
-                DBHelper DB = new DBHelper(AddItems.this);
+                String title = title_input.getText().toString().trim();
+                String author = author_input.getText().toString().trim();
+                String isbn = isbn_input.getText().toString().trim();
                 float rating = ratingBar.getRating();
-                DB.addBook(title_input.getText().toString().trim(),
-                        author_input.getText().toString().trim(),
-                        isbn_input.getText().toString().trim(),
-                        rating);
 
+                // check if any of the fields are less than 3 characters
+                if (title.isEmpty() || title.length() < 3) {
+                    title_input.setError("Title must be at least 3 characters");
+                    Log.d("AddItems", "Title is invalid: " + title);
+                    return;
+                }
+                if (author.isEmpty() || author.length() < 3) {
+                    author_input.setError("Author must be at least 3 characters");
+                    Log.d("AddItems", "Author is invalid: " + author);
+                    return;
+                }
+                if (isbn.isEmpty() || isbn.length() < 5) {
+                    isbn_input.setError("Review must be at least 5 characters");
+                    Log.d("AddItems", "ISBN is invalid: " + isbn);
+                    return;
+                }
+
+                // add book to the database
+                DBHelper DB = new DBHelper(AddItems.this);
+                DB.addBook(title, author, isbn, rating);
+
+                // call makeNotification method
                 makeNotification();
             }
         });

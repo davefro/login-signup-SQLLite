@@ -49,17 +49,14 @@ public class ResetPassword extends AppCompatActivity {
                     emailInputLayout.setError("Email cannot be empty");
                     return;
                 }
-
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
                     emailInputLayout.setError("Invalid email address");
                     return;
                 }
-
                 if (!pass2.matches(passwordPattern)) {
                     password2InputLayout.setError("Password must be at least 8 characters, including a capital letter and a special character");
                     return;
                 }
-
                 if (!pass2.equals(pass3)) {
                     password3InputLayout.setError("Passwords do not match");
                     return;

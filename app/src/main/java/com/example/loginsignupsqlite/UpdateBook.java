@@ -54,12 +54,28 @@ public class UpdateBook extends AppCompatActivity {
                 isbn = isbn_input.getText().toString();
                 float rating = ratingBar.getRating();
 
+                // validate inputs for a minimum of 3 characters
+                if (title.isEmpty() || title.length() < 3) {
+                    title_input.setError("Title must be at least 3 characters long");
+                    Log.d("UpdateBook", "Invalid title: " + title);
+                    return;
+                }
+                if (author.isEmpty() || author.length() < 3) {
+                    author_input.setError("Author must be at least 3 characters long");
+                    Log.d("UpdateBook", "Invalid author: " + author);
+                    return;
+                }
+                if (isbn.isEmpty() || isbn.length() < 5) {
+                    isbn_input.setError("Review must be at least 5 characters");
+                    Log.d("UpdateBook", "Invalid ISBN: " + isbn);
+                    return;
+                }
+
                 //update book details in the db
                 Log.d("UpdateBook", "Attempting to update book with ID: " + id);
                 DBHelper DB = new DBHelper(UpdateBook.this);
                 DB.updateData(id, title, author, isbn, rating);
                 Log.d("UpdateBook", "Book updated successfully.");
-
             }
         });
 

@@ -61,8 +61,6 @@ public class RegisterPage extends AppCompatActivity {
                 String cPass = cPassword.getText().toString().trim();
                 Log.d("RegisterPage", "Attempting to sign up with Email: " + user);
 
-
-
                 // reset errors
                 emailInputLayout.setError(null);
                 passwordInputLayout.setError(null);
@@ -73,12 +71,10 @@ public class RegisterPage extends AppCompatActivity {
                     emailInputLayout.setError("Email cannot be empty");
                     return;
                 }
-
                 if (!android.util.Patterns.EMAIL_ADDRESS.matcher(user).matches()) {
                     emailInputLayout.setError("Invalid email address");
                     return;
                 }
-
                 if (TextUtils.isEmpty(pass)) {
                     passwordInputLayout.setError("Password cannot be empty");
                     return;
@@ -91,7 +87,6 @@ public class RegisterPage extends AppCompatActivity {
                     passwordInputLayout.setError("Password needs at least 8 characters, including a capital letter and a special character");
                     return;
                 }
-
                 if (!pass.equals(cPass)) {
                     cPasswordInputLayout.setError("Passwords do not match");
                     return;
