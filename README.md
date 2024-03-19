@@ -95,9 +95,15 @@ design requirements.
 
 1. Android Developers (n.d.). _Documentation._ 
 https://developer.android.com/docs
-2. GeeksforGeeks. (2021, May 13). _Android Studio Tutorial_. GeeksforGeeks. 
+2. Flaticon. (2010). Flaticon, _The Largest Database of Free Vector Icons._ Flaticon.
+https://www.flaticon.com/
+3. GeeksforGeeks. (2021, May 13). _Android Studio Tutorial_. GeeksforGeeks. 
 https://www.geeksforgeeks.org/android-studio-tutorial/
-3. _The Complete Android App Developer Course || Start Developing Android Apps Today!_ (n.d.). 
-Www.youtube.com. Retrieved March 19, 2024, from https://www.youtube.com/watch?v=NLvaOL6Cm48&list=PL6Q9UqV2Sf1gHCHOKYLDofElSvxtRRXOR&index=1
+4. _The Complete Android App Developer Course || Start Developing Android Apps Today!_ (n.d.). 
+Www.youtube.com. Retrieved March 19, 2024, 
+from https://www.youtube.com/watch?v=NLvaOL6Cm48&list=PL6Q9UqV2Sf1gHCHOKYLDofElSvxtRRXOR&index=1
+5. Unsplash. (2022). _Beautiful Free Images & Pictures._ Unsplash; Unsplash. 
+https://unsplash.com/
+
 
 
